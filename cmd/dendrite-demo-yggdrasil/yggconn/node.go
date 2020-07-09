@@ -55,6 +55,7 @@ type Node struct {
 	quicConfig *quic.Config
 	sessions   sync.Map // string -> quic.Session
 	incoming   chan QUICStream
+	NewSession func(remote gomatrixserverlib.ServerName)
 }
 
 func (n *Node) BuildName() string {
@@ -266,18 +267,10 @@ func (n *Node) SetStaticPeer(uri string) error {
 	return nil
 }
 
-func (n *Node) NotifyLinkNew(f func(boxPubKey crypto.BoxPubKey, linkType, remote string)) {
+func (n *Node) NotifyLinkNew(f func(boxPubKey crypto.BoxPubKey, sigPubKey crypto.SigPubKey, linkType, remote string)) {
 	n.core.NotifyLinkNew(f)
 }
 
-func (n *Node) NotifyLinkGone(f func(boxPubKey crypto.BoxPubKey, linkType, remote string)) {
+func (n *Node) NotifyLinkGone(f func(boxPubKey crypto.BoxPubKey, sigPubKey crypto.SigPubKey, linkType, remote string)) {
 	n.core.NotifyLinkGone(f)
-}
-
-func (n *Node) NotifySessionNew(f func(boxPubKey crypto.BoxPubKey)) {
-	n.core.NotifySessionNew(f)
-}
-
-func (n *Node) NotifySessionGone(f func(boxPubKey crypto.BoxPubKey)) {
-	n.core.NotifySessionGone(f)
 }
