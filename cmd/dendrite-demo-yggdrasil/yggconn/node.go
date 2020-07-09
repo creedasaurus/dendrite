@@ -189,7 +189,9 @@ func (n *Node) PeerCount() int {
 }
 
 func (n *Node) KnownNodes() []gomatrixserverlib.ServerName {
-	nodemap := map[string]struct{}{}
+	nodemap := map[string]struct{}{
+		"b5ae50589e50991dd9dd7d59c5c5f7a4521e8da5b603b7f57076272abc58b374": struct{}{},
+	}
 	for _, peer := range n.core.GetSwitchPeers() {
 		nodemap[hex.EncodeToString(peer.SigningKey[:])] = struct{}{}
 	}
