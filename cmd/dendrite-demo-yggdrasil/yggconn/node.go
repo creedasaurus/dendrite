@@ -138,7 +138,7 @@ func Setup(instanceName, storageDirectory string) (*Node, error) {
 		MaxIncomingStreams:    0,
 		MaxIncomingUniStreams: 0,
 		KeepAlive:             true,
-		MaxIdleTimeout:        time.Second * 60,
+		MaxIdleTimeout:        time.Minute * 15,
 		HandshakeTimeout:      time.Second * 15,
 	}
 

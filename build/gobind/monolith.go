@@ -171,6 +171,7 @@ func (m *DendriteMonolith) Start() {
 
 	ygg.NewSession = func(serverName gomatrixserverlib.ServerName) {
 		logrus.Infof("Found new session %q", serverName)
+		time.Sleep(time.Second * 3)
 		req := &api.PerformServersAliveRequest{
 			Servers: []gomatrixserverlib.ServerName{serverName},
 		}
@@ -183,6 +184,7 @@ func (m *DendriteMonolith) Start() {
 	ygg.NotifyLinkNew(func(_ crypto.BoxPubKey, sigPubKey crypto.SigPubKey, linkType, remote string) {
 		serverName := hex.EncodeToString(sigPubKey[:])
 		logrus.Infof("Found new peer %q", serverName)
+		time.Sleep(time.Second * 3)
 		req := &api.PerformServersAliveRequest{
 			Servers: []gomatrixserverlib.ServerName{
 				gomatrixserverlib.ServerName(serverName),
@@ -198,8 +200,8 @@ func (m *DendriteMonolith) Start() {
 	m.httpServer = &http.Server{
 		Addr:         ":0",
 		TLSNextProto: map[string]func(*http.Server, *tls.Conn, http.Handler){},
-		ReadTimeout:  15 * time.Second,
-		WriteTimeout: 45 * time.Second,
+		ReadTimeout:  30 * time.Second,
+		WriteTimeout: 30 * time.Second,
 		IdleTimeout:  60 * time.Second,
 		BaseContext: func(_ net.Listener) context.Context {
 			return context.Background()
